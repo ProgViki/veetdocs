@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{fileName}} - Documentation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header {
+            border-bottom: 2px solid #007acc;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #007acc;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+        
+        .metadata {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .function-list, .class-list, .import-list, .variable-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .function-item, .class-item, .import-item, .variable-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007acc;
+            border-radius: 4px;
+        }
+        
+        .function-name, .class-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .line-number {
+            color: #95a5a6;
+            font-size: 0.9em;
+            float: right;
+        }
+        
+        .parameters {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .return-type {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .comment {
+            color: #75715e;
+            font-style: italic;
+        }
+        
+        .keyword {
+            color: #f92672;
+        }
+        
+        .string {
+            color: #a6e22e;
+        }
+        
+        .number {
+            color: #ae81ff;
+        }
+        
+        .flowchart {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{fileName}} Documentation</h1>
+            <div class="metadata">
+                Generated on: {{generationDate}}<br>
+                Language: {{language}}<br>
+                Total functions: {{functionCount}} | Total classes: {{classCount}}
+            </div>
+        </header>
+
+        {{#hasOverview}}
+        <section class="section">
+            <h2>Overview</h2>
+            <p>{{overview}}</p>
+        </section>
+        {{/hasOverview}}
+
+        {{#hasImports}}
+        <section class="section">
+            <h2>Imports & Dependencies</h2>
+            <ul class="import-list">
+                {{#imports}}
+                <li class="import-item">{{.}}</li>
+                {{/imports}}
+            </ul>
+        </section>
+        {{/hasImports}}
+
+        {{#hasFunctions}}
+        <section class="section">
+            <h2>Functions</h2>
+            {{#functions}}
+            <div class="function-item">
+                <span class="function-name">{{name}}</span>
+                <span class="line-number">Line {{lineNumber}}</span>
+                <div class="parameters">Parameters: {{#parameters}}{{.}}{{^last}}, {{/last}}{{/parameters}}</div>
+                {{#returnType}}<div class="return-type">Returns: {{returnType}}</div>{{/returnType}}
+                {{#documentation}}<div class="comment">{{documentation}}</div>{{/documentation}}
+            </div>
+            {{/functions}}
+        </section>
+        {{/hasFunctions}}
+
+        {{#hasClasses}}
+        <section class="section">
+            <h2>Classes</h2>
+            {{#classes}}
+            <div class="class-item">
+                <span class="class-name">{{name}}</span>
+                <span class="line-number">Line {{lineNumber}}</span>
+                {{#documentation}}<div class="comment">{{documentation}}</div>{{/documentation}}
+                
+                {{#hasMethods}}
+                <h3>Methods</h3>
+                {{#methods}}
+                <div style="margin-left: 20px; margin-top: 10px;">
+                    <span class="function-name">{{name}}</span>
+                    <span class="line-number">Line {{lineNumber}}</span>
+                    <div class="parameters">Parameters: {{#parameters}}{{.}}{{^last}}, {{/last}}{{/parameters}}</div>
+                    {{#returnType}}<div class="return-type">Returns: {{returnType}}</div>{{/returnType}}
+                </div>
+                {{/methods}}
+                {{/hasMethods}}
+            </div>
+            {{/classes}}
+        </section>
+        {{/hasClasses}}
+
+        {{#hasVariables}}
+        <section class="section">
+            <h2>Variables & Constants</h2>
+            <ul class="variable-list">
+                {{#variables}}
+                <li class="variable-item">
+                    <span class="function-name">{{name}}</span>
+                    <span class="line-number">Line {{lineNumber}}</span>
+                    {{#type}}<div>Type: {{type}}</div>{{/type}}
+                    {{#value}}<div>Value: {{value}}</div>{{/value}}
+                </li>
+                {{/variables}}
+            </ul>
+        </section>
+        {{/hasVariables}}
+
+        {{#hasComments}}
+        <section class="section">
+            <h2>Comments</h2>
+            {{#comments}}
+            <div style="margin: 10px 0; padding: 10px; background: #f8f9fa; border-left: 3px solid #95a5a6;">
+                <div class="comment">{{text}}</div>
+                <span class="line-number">Line {{lineNumber}}</span>
+            </div>
+            {{/comments}}
+        </section>
+        {{/hasComments}}
+
+        {{#hasFlowchart}}
+        <section class="section">
+            <h2>Flowchart</h2>
+            <div class="flowchart">
+                <pre class="code-block">{{flowchart}}</pre>
+            </div>
+        </section>
+        {{/hasFlowchart}}
+
+        <section class="section">
+            <h2>Source Code</h2>
+            <pre class="code-block">{{sourceCode}}</pre>
+        </section>
+
+        <footer>
+            Generated by Code to Docs VS Code Extension
+        </footer>
+    </div>
+</body>
+</html>

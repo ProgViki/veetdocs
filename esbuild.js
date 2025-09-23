@@ -1,56 +1,53 @@
-const esbuild = require("esbuild");
+const esbuild = require('esbuild');
+const fs = require('fs-extra');
+const path = require('path');
 
-const production = process.argv.includes('--production');
-const watch = process.argv.includes('--watch');
+// Clean output directory
+fs.removeSync('out');
+fs.ensureDirSync('out');
 
-/**
- * @type {import('esbuild').Plugin}
- */
-const esbuildProblemMatcherPlugin = {
-	name: 'esbuild-problem-matcher',
-
-	setup(build) {
-		build.onStart(() => {
-			console.log('[watch] build started');
-		});
-		build.onEnd((result) => {
-			result.errors.forEach(({ text, location }) => {
-				console.error(`✘ [ERROR] ${text}`);
-				console.error(`    ${location.file}:${location.line}:${location.column}:`);
-			});
-			console.log('[watch] build finished');
-		});
-	},
+const buildOptions = {
+  entryPoints: ['src/extension.ts'],
+  bundle: true,
+  outfile: 'out/extension.js',
+  external: [
+    'vscode',
+    'fs-extra', 
+    'markdown-it',
+    'html-pdf'
+  ],
+  platform: 'node',
+  target: 'node14',
+  format: 'cjs',
+  sourcemap: true,
+  minify: process.argv.includes('--minify')
 };
 
-async function main() {
-	const ctx = await esbuild.context({
-		entryPoints: [
-			'src/extension.ts'
-		],
-		bundle: true,
-		format: 'cjs',
-		minify: production,
-		sourcemap: !production,
-		sourcesContent: false,
-		platform: 'node',
-		outfile: 'dist/extension.js',
-		external: ['vscode'],
-		logLevel: 'silent',
-		plugins: [
-			/* add to the end of plugins array */
-			esbuildProblemMatcherPlugin,
-		],
-	});
-	if (watch) {
-		await ctx.watch();
-	} else {
-		await ctx.rebuild();
-		await ctx.dispose();
-	}
+async function build() {
+  try {
+    console.log('Building extension with esbuild...');
+    
+    await esbuild.build(buildOptions);
+    
+    // Copy static files if they exist
+    const copyIfExists = (source, target) => {
+      if (fs.existsSync(source)) {
+        fs.copySync(source, target);
+        console.log(`Copied ${source} to ${target}`);
+      } else {
+        console.log(`Warning: ${source} does not exist, skipping copy`);
+      }
+    };
+    
+    copyIfExists('templates', 'out/templates');
+    copyIfExists('media', 'out/media');
+    
+    console.log('Build completed successfully!');
+  } catch (error) {
+    console.error('Build failed:', error);
+    process.exit(1);
+  }
 }
 
-main().catch(e => {
-	console.error(e);
-	process.exit(1);
-});
+// Run build
+build();

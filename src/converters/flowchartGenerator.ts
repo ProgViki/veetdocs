@@ -7,10 +7,10 @@ export async function generateFlowchart(content: string, fileExt: string): Promi
             flowchartCode = generateJsFlowchart(content);
             break;
         case '.py':
-            flowchartCode = generatePythonFlowchart(content);
+            flowchartCode = generatePythonFlowchart();
             break;
         default:
-            flowchartCode = generateGenericFlowchart(content);
+            flowchartCode = generateGenericFlowchart();
     }
 
     return `# Flowchart
@@ -43,12 +43,12 @@ function generateJsFlowchart(content: string): string {
     return flowchart;
 }
 
-function generatePythonFlowchart(content: string): string {
+function generatePythonFlowchart(): string {
     // Implement Python-specific flowchart generation
     return 'Start --> Main;\nMain --> End;';
 }
 
-function generateGenericFlowchart(content: string): string {
+function generateGenericFlowchart(): string {
     // Implement generic flowchart generation
     return 'Start --> Main;\nMain --> End;';
 }

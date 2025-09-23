@@ -12,9 +12,9 @@ function parseCode(content: string, fileExt: string): ParsedCode {
         case '.ts':
             return parseJavaScript(content);
         case '.py':
-            return parsePython(content);
+            return parsePython();
         case '.java':
-            return parseJava(content);
+            return parseJava();
         default:
             return { functions: [], classes: [], variables: [], imports: [], comments: [] };
     }
@@ -121,12 +121,12 @@ function getLanguageFromExtension(fileExt: string): string {
 }
 
 // Placeholder functions for other languages
-function parsePython(content: string): ParsedCode {
+function parsePython(): ParsedCode {
     // Implement Python parsing logic
     return { functions: [], classes: [], variables: [], imports: [], comments: [] };
 }
 
-function parseJava(content: string): ParsedCode {
+function parseJava(): ParsedCode {
     // Implement Java parsing logic
     return { functions: [], classes: [], variables: [], imports: [], comments: [] };
 }

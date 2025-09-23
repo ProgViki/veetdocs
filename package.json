@@ -6,19 +6,47 @@
   "engines": {
     "vscode": "^1.104.0"
   },
-  "categories": [
-    "Other"
-  ],
+  "author": {
+    "name": "Victor Oluwatosin",
+    "email": "victor.ogunwehin@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ProgViki/veetdocs"
+  },
+  "categories": ["Documentation", "Formatters"],
+  "keywords": ["documentation", "markdown", "flowchart", "code", "export"],
+  "publisher": "vikitechsolutions",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
+        {
+        "command": "veetdocs.convertFile",
+        "title": "Convert File to Documentation",
+        "category": "VeetDocs"
+      },
       {
-        "command": "veetdocs.helloWorld",
-        "title": "Hello World"
+        "command": "veetdocs.convertFolder",
+        "title": "Convert Folder to Documentation",
+        "category": "VeetDocs"
       }
     ]
   },
+   "menus": {
+      "explorer/context": [
+        {
+          "command": "code-to-docs.convertFile",
+          "when": "resourceLangId != null",
+          "group": "navigation"
+        },
+        {
+          "command": "code-to-docs.convertFolder",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation"
+        }
+      ]
+    },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
@@ -36,7 +64,6 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/markdown-it": "^14.1.2",
-    "@types/mermaid": "^9.1.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.18.6",
     "@types/vscode": "^1.104.0",
@@ -52,7 +79,6 @@
   "dependencies": {
     "fs-extra": "^11.3.2",
     "html-pdf": "^3.0.1",
-    "markdown-it": "^14.1.0",
-    "mermaid": "^11.12.0"
+    "markdown-it": "^14.1.0"
   }
 }
