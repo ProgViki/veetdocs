@@ -2,8 +2,12 @@
 
 All notable changes to the "veetdocs" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [1.0.0] - 2024-01-01
 
-## [Unreleased]
+### Added
+- Initial release of VeetDocs
+- Support for JavaScript, TypeScript, Python, and Java
+- Markdown and HTML output formats
+- Flowchart generation
+- Context menu integration
 
-- Initial release

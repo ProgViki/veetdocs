@@ -1,24 +1,26 @@
 {
   "name": "veetdocs",
-  "displayName": "veetdocs",
+  "displayName": "Veetdocs",
   "description": "Convert code to documentation and flowcharts",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.104.0"
   },
   "author": {
     "name": "Victor Oluwatosin",
-    "email": "victor.ogunwehin@gmail.com"
+    "email": "victorogunwehin@gmail.com"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ProgViki/veetdocs"
   },
-  "categories": ["Documentation", "Formatters"],
+  "categories": ["Extension Packs", "Formatters"],
   "keywords": ["documentation", "markdown", "flowchart", "code", "export"],
   "publisher": "vikitechsolutions",
+  "license": "MIT",
+  "icon": "media/icon.png",
   "activationEvents": [],
-  "main": "./dist/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "commands": [
         {
@@ -36,12 +38,12 @@
    "menus": {
       "explorer/context": [
         {
-          "command": "code-to-docs.convertFile",
+          "command": "veetdocs.convertFile",
           "when": "resourceLangId != null",
           "group": "navigation"
         },
         {
-          "command": "code-to-docs.convertFolder",
+          "command": "veetdocs.convertFolder",
           "when": "explorerResourceIsFolder",
           "group": "navigation"
         }

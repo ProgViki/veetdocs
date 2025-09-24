@@ -10,7 +10,7 @@ import { ConversionOptions } from './types';
 export function activate(context: vscode.ExtensionContext) {
     // Register file conversion command
     const convertFileDisposable = vscode.commands.registerCommand(
-        'code-to-docs.convertFile', 
+        'veetdocs.convertFile', 
         async (uri: vscode.Uri) => {
             await handleConversion(uri, false);
         }
@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Register folder conversion command
     const convertFolderDisposable = vscode.commands.registerCommand(
-        'code-to-docs.convertFolder', 
+        'veetdocs.convertFolder', 
         async (uri: vscode.Uri) => {
             await handleConversion(uri, true);
         }
